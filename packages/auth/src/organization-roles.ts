@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-export const familyRoleSchema = z.union([
+export const organizationRoleSchema = z.union([
   z.literal("OWNER"),
   z.literal("ADMIN"),
   z.literal("MEMBER"),
   z.literal("VIEWER"),
 ]);
 
-export type FamilyRoles = z.infer<typeof familyRoleSchema>;
+export type organizationRoles = z.infer<typeof organizationRoleSchema>;

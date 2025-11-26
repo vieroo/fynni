@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const accountSchema = z.object({
   id: z.uuid(),
-  familyId: z.uuid(),
-  name: z.string(),
+  organizationId: z.uuid(),
+  isShared: z.boolean(),
   ownerId: z.uuid(),
 });
 

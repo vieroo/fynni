@@ -2,10 +2,8 @@ import { z } from "zod";
 
 export const transactionSchema = z.object({
   id: z.uuid(),
-  familyId: z.uuid(),
+  organizationId: z.uuid(),
   accountId: z.uuid(),
-  categoryId: z.uuid(),
-  type: z.enum(["INCOME", "EXPENSE"]),
   createdById: z.uuid(),
 });
 
