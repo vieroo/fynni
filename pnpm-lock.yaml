@@ -18,6 +18,18 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  apps/api:
+    devDependencies:
+      '@fynni/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
+      '@fynni/prettier':
+        specifier: workspace:*
+        version: link:../../config/prettier
+      '@fynni/typescript-config':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+
   config/eslint-config:
     devDependencies:
       '@fynni/prettier':
