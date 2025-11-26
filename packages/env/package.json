@@ -1,0 +1,22 @@
+{
+  "name": "@fynni/env",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "devDependencies": {
+    "@fynni/eslint-config": "workspace:*",
+    "@fynni/prettier": "workspace:*",
+    "@fynni/typescript-config": "workspace:*",
+    "@types/node": "^24.6.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@fynni/eslint-config/base"
+    ]
+  },
+  "prettier": "@fynni/prettier",
+  "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "zod": "^4.1.11"
+  }
+}
