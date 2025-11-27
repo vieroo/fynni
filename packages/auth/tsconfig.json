@@ -1,4 +1,0 @@
-{
-  "extends": "@fynni/typescript-config/library.json",
-  "include": ["src/**/*", "index.ts"]
-}
