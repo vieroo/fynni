@@ -18,7 +18,7 @@ export async function createUser(app: FastifyInstance) {
           password: z.string(),
         }),
         response: {
-          201: z.null,
+          201: z.null(),
         },
       },
     },

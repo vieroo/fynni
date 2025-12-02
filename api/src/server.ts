@@ -15,6 +15,12 @@ import { createUser } from './routes/auth/create-user'
 import { getProfile } from './routes/auth/get-profile'
 import { resetPassword } from './routes/auth/reset-password'
 import { forgotPassword } from './routes/auth/forgot-password'
+import { updatePassword } from './routes/auth/update-password'
+import { createAccount } from './routes/account/create-account'
+import { listAccounts } from './routes/account/list-accounts'
+import { getAccount } from './routes/account/get-account'
+import { updateAccount } from './routes/account/update-account'
+import { deleteAccount } from './routes/account/delete-account'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-jwt-secret'
 
@@ -38,6 +44,15 @@ app.register(fastifySwagger, {
       description: 'API documentation for Fynni application',
       version: '1.0.0',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
   transform: jsonSchemaTransform,
 })
@@ -56,6 +71,14 @@ app.register(createUser)
 app.register(getProfile)
 app.register(resetPassword)
 app.register(forgotPassword)
+app.register(updatePassword)
+
+// Account Routes
+app.register(createAccount)
+app.register(listAccounts)
+app.register(getAccount)
+app.register(updateAccount)
+app.register(deleteAccount)
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')

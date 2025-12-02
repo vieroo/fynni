@@ -14,7 +14,7 @@ export async function forgotPassword(app: FastifyInstance) {
           email: z.email(),
         }),
         response: {
-          201: z.null,
+          201: z.null(),
         },
       },
     },
