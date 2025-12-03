@@ -21,6 +21,11 @@ import { listAccounts } from './routes/account/list-accounts'
 import { getAccount } from './routes/account/get-account'
 import { updateAccount } from './routes/account/update-account'
 import { deleteAccount } from './routes/account/delete-account'
+import { createCategory } from './routes/category/create-category'
+import { listCategories } from './routes/category/list-categories'
+import { getCategory } from './routes/category/get-category'
+import { updateCategory } from './routes/category/update-category'
+import { deleteCategory } from './routes/category/delete-category'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-jwt-secret'
 
@@ -79,6 +84,13 @@ app.register(listAccounts)
 app.register(getAccount)
 app.register(updateAccount)
 app.register(deleteAccount)
+
+// Categories Routes
+app.register(createCategory)
+app.register(listCategories)
+app.register(getCategory)
+app.register(updateCategory)
+app.register(deleteCategory)
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')
