@@ -26,6 +26,11 @@ import { listCategories } from './routes/category/list-categories'
 import { getCategory } from './routes/category/get-category'
 import { updateCategory } from './routes/category/update-category'
 import { deleteCategory } from './routes/category/delete-category'
+import { createCreditCard } from './routes/credit-card/create-credit-card'
+import { listCreditCards } from './routes/credit-card/list-credit-cards'
+import { getCreditCard } from './routes/credit-card/get-credit-card'
+import { updateCreditCard } from './routes/credit-card/update-credit-card'
+import { deleteCreditCard } from './routes/credit-card/delete-credit-card'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-jwt-secret'
 
@@ -91,6 +96,13 @@ app.register(listCategories)
 app.register(getCategory)
 app.register(updateCategory)
 app.register(deleteCategory)
+
+// Credit Card Routes
+app.register(createCreditCard)
+app.register(listCreditCards)
+app.register(getCreditCard)
+app.register(updateCreditCard)
+app.register(deleteCreditCard)
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')
