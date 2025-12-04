@@ -119,7 +119,7 @@ model Transaction {
 
   categoryId   String? @map("category_id")
   accountId    String? @map("account_id")
-  creditCardId String  @map("credit_card_id")
+  creditCardId String? @map("credit_card_id")
 
   fromAccountId String? @map("from_account_id")
   toAccountId   String? @map("to_account_id")

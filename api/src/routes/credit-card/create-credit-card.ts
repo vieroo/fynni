@@ -22,9 +22,7 @@ export async function createCreditCard(app: FastifyInstance) {
             dueDay: z.number(),
           }),
           response: {
-            response: {
-              201: z.null(),
-            },
+            201: z.null(),
           },
         },
       },
