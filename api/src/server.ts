@@ -104,6 +104,8 @@ app.register(getCreditCard)
 app.register(updateCreditCard)
 app.register(deleteCreditCard)
 
+// Transactions Routes
+
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')
   console.log('📘 Docs available at http://localhost:3333/docs')

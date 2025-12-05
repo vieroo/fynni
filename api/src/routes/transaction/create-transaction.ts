@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { auth } from '@/middlewares/auth'
 import { BadRequestError } from '../_error/bad-request-error'
 import { createTransfer } from './_helpers/create-transfer'
+import { createInstallments } from './_helpers/create-installments'
 
 export async function createTransaction(app: FastifyInstance) {
   app
@@ -16,7 +17,6 @@ export async function createTransaction(app: FastifyInstance) {
         schema: {
           tags: ['Transactions'],
           summary: 'Create a new user transaction.',
-
           body: z.object({
             type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER']),
             amount: z.number(),
@@ -27,7 +27,8 @@ export async function createTransaction(app: FastifyInstance) {
             creditCardId: z.string(),
             fromAccountId: z.string().nullable(),
             toAccountId: z.string().nullable(),
-            isInstallment: z.boolean(),
+            isInstallment: z.boolean().default(false),
+            installments: z.number().nullable(),
           }),
           response: {
             201: z.object({
@@ -49,6 +50,7 @@ export async function createTransaction(app: FastifyInstance) {
           fromAccountId,
           toAccountId,
           isInstallment,
+          installments,
         } = request.body
 
         // Verificar conta
@@ -69,6 +71,9 @@ export async function createTransaction(app: FastifyInstance) {
           if (!creditCard) throw new BadRequestError('Cartão inválido.')
         }
 
+        // -------------------------
+        // TRANSFER
+        // -------------------------
         if (type === 'TRANSFER') {
           if (!fromAccountId || !toAccountId)
             throw new BadRequestError(
@@ -96,17 +101,79 @@ export async function createTransaction(app: FastifyInstance) {
         }
 
         // -------------------------
-        // INCOME / EXPENSE NORMAL
+        // WITH INSTALLMENTS
         // -------------------------
-        if (!accountId && !creditCardId)
-          throw new BadRequestError('Transação normal requer conta OU cartão.')
+        if (isInstallment) {
+          if (!installments || installments < 2) {
+            throw new BadRequestError('Número de parcelas inválido.')
+          }
 
-        // TO DO
-        // PARCELAMENTO
-        // SEM PARCELAMENTO
-        // ATUALIZAR SALDO DAS CONTAS
+          if (amount <= 0) {
+            throw new BadRequestError('Valor não pode ser zero.')
+          }
 
-        return reply.status(201).send()
+          await createInstallments(
+            amount,
+            installments,
+            description,
+            userId,
+            type,
+            date,
+            categoryId,
+            accountId,
+            creditCardId,
+          )
+
+          return reply.status(201).send({
+            message: 'Parcelamento criado com sucesso.',
+          })
+        }
+
+        // -------------------------
+        // NORMAL TRANSACTION
+        // -------------------------
+        if (!isInstallment) {
+          if (!accountId && !creditCardId)
+            throw new BadRequestError(
+              'Transação normal requer conta OU cartão.',
+            )
+
+          await prisma.transaction.create({
+            data: {
+              userId,
+              type,
+              amount,
+              date,
+              description,
+              categoryId,
+              accountId,
+              creditCardId,
+              isInstallment,
+            },
+          })
+
+          if (accountId) {
+            if (type === 'INCOME') {
+              await prisma.account.update({
+                where: { id: accountId },
+                data: {
+                  balance: { increment: amount },
+                },
+              })
+            }
+
+            if (type === 'INCOME') {
+              await prisma.account.update({
+                where: { id: accountId },
+                data: { balance: { increment: amount } },
+              })
+            }
+          }
+
+          return reply
+            .status(201)
+            .send({ message: 'Transação criada com sucesso.' })
+        }
       },
     )
 }
