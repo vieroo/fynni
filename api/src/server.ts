@@ -31,6 +31,11 @@ import { listCreditCards } from './routes/credit-card/list-credit-cards'
 import { getCreditCard } from './routes/credit-card/get-credit-card'
 import { updateCreditCard } from './routes/credit-card/update-credit-card'
 import { deleteCreditCard } from './routes/credit-card/delete-credit-card'
+import { createTransaction } from './routes/transaction/create-transaction'
+import { listTransactions } from './routes/transaction/get-transaction'
+import { getTransaction } from './routes/transaction/list-transactions'
+import { deleteTransaction } from './routes/transaction/delete-transaction'
+import { updateTransaction } from './routes/transaction/update-transaction'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-jwt-secret'
 
@@ -105,6 +110,15 @@ app.register(updateCreditCard)
 app.register(deleteCreditCard)
 
 // Transactions Routes
+app.register(createTransaction)
+app.register(listTransactions)
+app.register(getTransaction)
+app.register(updateTransaction)
+app.register(deleteTransaction)
+
+// Billing Cycle
+
+// Pay billing cycle
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')

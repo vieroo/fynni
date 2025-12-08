@@ -30,7 +30,7 @@ export async function listTransactions(app: FastifyInstance) {
                 type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER']),
                 amount: z.number(),
                 categoryId: z.string().nullable(),
-                creditCardId: z.string(),
+                creditCardId: z.string().nullable(),
                 fromAccountId: z.string().nullable(),
                 toAccountId: z.string().nullable(),
                 isInstallment: z.boolean(),
