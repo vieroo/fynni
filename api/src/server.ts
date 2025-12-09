@@ -36,6 +36,13 @@ import { listTransactions } from './routes/transaction/get-transaction'
 import { getTransaction } from './routes/transaction/list-transactions'
 import { deleteTransaction } from './routes/transaction/delete-transaction'
 import { updateTransaction } from './routes/transaction/update-transaction'
+import { getCurrentBillingCycle } from './routes/billing-cycle/get-current-billing-cycle'
+import { getNextBillingCycle } from './routes/billing-cycle/get-next-billing-cycle'
+import { getBillingCycleByMonthAndYear } from './routes/billing-cycle/get-billing-cycle-by-month-and-year'
+import { getBillingCycleForecast } from './routes/billing-cycle/get-billing-cycle-forecast'
+import { payBillingCycle } from './routes/pay-billing-cycle/pay-billing-cycle'
+import { paySpecificBillingCycle } from './routes/pay-billing-cycle/pay-specific-billing-cycle'
+import { previewBillingCycle } from './routes/pay-billing-cycle/preview-billing-cycle'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-jwt-secret'
 
@@ -116,9 +123,16 @@ app.register(getTransaction)
 app.register(updateTransaction)
 app.register(deleteTransaction)
 
-// Billing Cycle
+// Billing
+app.register(getCurrentBillingCycle)
+app.register(getNextBillingCycle)
+app.register(getBillingCycleByMonthAndYear)
+app.register(getBillingCycleForecast)
 
 // Pay billing cycle
+app.register(payBillingCycle)
+app.register(paySpecificBillingCycle)
+app.register(previewBillingCycle)
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('🔥 Server is running on http://localhost:3333')

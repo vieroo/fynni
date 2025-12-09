@@ -40,10 +40,11 @@ model User {
   avatarUrl    String?  @map("avatar_url")
   createdAt    DateTime @default(now()) @map("created_at")
 
-  accounts     Account[]
-  creditCards  CreditCard[]
-  categories   Category[]
-  transactions Transaction[]
+  accounts        Account[]
+  creditCards     CreditCard[]
+  categories      Category[]
+  transactions    Transaction[]
+  billingPayments BillingPayment[]
 
   @@map("users")
 }
@@ -77,9 +78,10 @@ model CreditCard {
   dueDay      Int      @map("due_day")
   createdAt   DateTime @default(now()) @map("created_at")
 
-  user         User          @relation(fields: [userId], references: [id])
-  account      Account       @relation(fields: [accountId], references: [id])
-  transactions Transaction[]
+  user            User             @relation(fields: [userId], references: [id])
+  account         Account          @relation(fields: [accountId], references: [id])
+  transactions    Transaction[]
+  billingPayments BillingPayment[]
 }
 
 model Category {
@@ -95,6 +97,22 @@ model Category {
   transactions Transaction[]
 
   @@map("categories")
+}
+
+model BillingPayment {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  creditCardId String   @map("credit_card_id")
+  periodStart  DateTime @map("period_start")
+  periodEnd    DateTime @map("period_end")
+  amount       Float
+  paidAt       DateTime @default(now()) @map("paid_at")
+
+  user       User       @relation(fields: [userId], references: [id])
+  creditCard CreditCard @relation(fields: [creditCardId], references: [id])
+
+  @@unique([creditCardId, periodStart, periodEnd])
+  @@map("billing_payments")
 }
 
 model InstallmentGroup {
