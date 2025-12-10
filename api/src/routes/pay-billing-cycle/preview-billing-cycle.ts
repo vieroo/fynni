@@ -22,7 +22,7 @@ export async function previewBillingCycle(app: FastifyInstance) {
           response: {
             200: z.object({
               period: z.object({
-                start: z.date,
+                start: z.date(),
                 end: z.date(),
               }),
               total: z.number(),
