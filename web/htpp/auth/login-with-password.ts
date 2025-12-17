@@ -13,7 +13,7 @@ export async function loginWithPassword({
   password,
 }: loginWithPasswordRequest) {
   const result = await api
-    .post('/auth/login', {
+    .post('auth/login', {
       json: {
         email,
         password,

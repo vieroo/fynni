@@ -56,10 +56,16 @@ export default function LoginForm() {
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
                 />
+
+                {errors?.email && (
+                  <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                    {errors.email[0]}
+                  </p>
+                )}
               </Field>
               <Field>
                 <div className="flex items-center">
@@ -71,7 +77,13 @@ export default function LoginForm() {
                     Esqueceu sua senha?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" />
+
+                {errors?.password && (
+                  <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                    {errors.password[0]}
+                  </p>
+                )}
               </Field>
               <Field>
                 <Button type="submit">Login</Button>

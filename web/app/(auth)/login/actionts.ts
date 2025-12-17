@@ -7,7 +7,9 @@ import { success, z } from 'zod'
 
 const loginSchema = z.object({
   email: z.email({ error: 'Por favor, digite um endereço de e-mail válido.' }),
-  password: z.string({ error: 'Por favor, digite sua senha.' }),
+  password: z
+    .string({ error: 'Por favor, digite sua senha.' })
+    .min(1, { error: 'Por favor, digite sua senha.' }),
 })
 
 export async function loginAction(data: FormData) {
@@ -44,6 +46,8 @@ export async function loginAction(data: FormData) {
         errors: null,
       }
     }
+
+    console.error(error)
 
     return {
       success: false,
