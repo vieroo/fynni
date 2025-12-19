@@ -47,8 +47,6 @@ export async function loginAction(data: FormData) {
       }
     }
 
-    console.error(error)
-
     return {
       success: false,
       message:

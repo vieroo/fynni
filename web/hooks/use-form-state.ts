@@ -1,7 +1,7 @@
 import { FormEvent, useState, useTransition } from 'react'
 
 interface FormState {
-  success: boolean
+  success: boolean | null
   message: string | null
   errors: Record<string, string[]> | null
 }
@@ -15,7 +15,7 @@ export function useFormState(
 
   const [formState, setFormState] = useState(
     initialState ?? {
-      success: false,
+      success: null,
       message: null,
       errors: null,
     }

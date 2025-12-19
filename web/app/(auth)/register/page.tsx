@@ -1,9 +1,9 @@
 import { BanknoteArrowUp } from 'lucide-react'
-import LoginForm from './login-form'
+import RegisterForm from './register-form'
 
 export const metadata = {
-  title: 'Fynni – Login',
-  description: 'Acesse sua conta Fynni',
+  title: 'Fynni – Cadastre-se',
+  description: 'Crie sua conta Fynni',
 }
 
 export default function LoginPage() {
@@ -17,7 +17,7 @@ export default function LoginPage() {
           <span className="text-xl font-bold">Fynni</span>
         </div>
 
-        <LoginForm />
+        <RegisterForm />
       </div>
     </div>
   )
