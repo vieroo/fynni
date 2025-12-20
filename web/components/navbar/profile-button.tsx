@@ -9,7 +9,6 @@ import {
 } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { NavItems, User } from './types'
-import {} from './types'
 
 function getInitials(fullName: string): string {
   return fullName
