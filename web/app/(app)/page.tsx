@@ -88,86 +88,82 @@ export default function Home() {
   )
 
   return (
-    <div className="flex min-h-screen  justify-center bg-zinc-50 font-sans dark:bg-black">
-      <div className="container mx-auto p-4 md:p-6 space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">Visão geral das suas finanças</p>
-        </div>
+    <div className="container mx-auto px-4 mt-6 space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">Visão geral das suas finanças</p>
+      </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Saldo Total</CardTitle>
-              <Wallet className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {formatCurrency(totalBalance)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {accounts.length} contas
-              </p>
-            </CardContent>
-          </Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Saldo Total</CardTitle>
+            <Wallet className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {formatCurrency(totalBalance)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {accounts.length} contas
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Receitas (Mês)
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">
-                {formatCurrency(monthStats.income)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {transactions.filter((t) => t.type === 'income').length}{' '}
-                transações
-              </p>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Receitas (Mês)
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">
+              {formatCurrency(monthStats.income)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {transactions.filter((t) => t.type === 'income').length}{' '}
+              transações
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Despesas (Mês)
-              </CardTitle>
-              <TrendingDown className="h-4 w-4 text-red-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-red-600">
-                {formatCurrency(monthStats.expenses)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {transactions.filter((t) => t.type === 'expense').length}{' '}
-                transações
-              </p>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Despesas (Mês)
+            </CardTitle>
+            <TrendingDown className="h-4 w-4 text-red-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">
+              {formatCurrency(monthStats.expenses)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {transactions.filter((t) => t.type === 'expense').length}{' '}
+              transações
+            </p>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Saldo do Mês
-              </CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div
-                className={`text-2xl font-bold ${
-                  monthStats.balance >= 0 ? 'text-primary' : 'text-destructive'
-                }`}
-              >
-                {formatCurrency(monthStats.balance)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {monthStats.transactionCount} movimentações
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Saldo do Mês</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div
+              className={`text-2xl font-bold ${
+                monthStats.balance >= 0 ? 'text-primary' : 'text-destructive'
+              }`}
+            >
+              {formatCurrency(monthStats.balance)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {monthStats.transactionCount} movimentações
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

@@ -14,9 +14,9 @@ export default async function AuthLayout({
   const { user } = await auth()
 
   return (
-    <>
+    <div className="min-h-screen">
       <Navbar user={user} />
       {children}
-    </>
+    </div>
   )
 }

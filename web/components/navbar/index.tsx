@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ProfileButton } from './profile-button'
 import { navItems } from './nav-items'
 import { User } from './types'
-import { ThemeToggle } from '../them-toggle'
+import { ThemeToggle } from '../theme-toggle'
 
 export function Navbar({ user }: { user: User }) {
   const pathname = usePathname()
@@ -30,7 +30,7 @@ export function Navbar({ user }: { user: User }) {
                   <Button
                     variant={isActive ? 'secondary' : 'ghost'}
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 hover:cursor-pointer"
                   >
                     <Icon
                       className={`h-4 w-4 ${isActive ? 'text-primary' : ''}`}
