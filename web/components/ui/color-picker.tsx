@@ -1,21 +1,61 @@
 'use client'
 
-import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
+import { useState } from 'react'
 
 type ColorPickerProps = {
+  value: string
+  onChange: (color: string) => void
+  colors: readonly { value: string; label: string }[]
+}
+
+export function ColorPicker({ value, onChange, colors }: ColorPickerProps) {
+  return (
+    <div className="grid grid-cols-6 gap-2">
+      {colors.map((color) => {
+        const selected = value === color.value
+
+        return (
+          <button
+            key={color.value}
+            type="button"
+            onClick={() => onChange(color.value)}
+            title={color.label}
+            className={cn(
+              'h-10 w-10 rounded-md transition-all hover:cursor-pointer',
+              selected
+                ? 'ring-2 ring-ring ring-offset-2 ring-offset-background'
+                : 'border border-border hover:scale-105'
+            )}
+            style={{ backgroundColor: color.value }}
+          >
+            {selected && (
+              <Check
+                className="mx-auto h-5 w-5 text-white drop-shadow-md"
+                strokeWidth={3}
+              />
+            )}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+// Versão alternativa: Uncontrolled Component (se preferir)
+type UncontrolledColorPickerProps = {
   name?: string
   defaultValue?: string
   colors: readonly { value: string; label: string }[]
 }
 
-export function ColorPicker({
+export function UncontrolledColorPicker({
   name = 'color',
   defaultValue,
   colors,
-}: ColorPickerProps) {
-  const [value, setValue] = useState(defaultValue ?? colors[0]?.value)
+}: UncontrolledColorPickerProps) {
+  const [value, setValue] = useState(defaultValue || colors[0]?.value || '')
 
   return (
     <div className="grid grid-cols-6 gap-2">
@@ -31,7 +71,7 @@ export function ColorPicker({
             onClick={() => setValue(color.value)}
             title={color.label}
             className={cn(
-              'h-7 w-7 rounded-full transition-all hover:cursor-pointer',
+              'h-9 w-9 rounded-full transition-all hover:cursor-pointer',
               selected
                 ? 'ring-2 ring-ring ring-offset-2 ring-offset-background'
                 : 'border border-border hover:scale-105'
@@ -40,7 +80,7 @@ export function ColorPicker({
           >
             {selected && (
               <Check
-                className="mx-auto h-4 w-4 text-foreground drop-shadow-sm"
+                className="mx-auto h-5 w-5 text-white drop-shadow-md"
                 strokeWidth={3}
               />
             )}

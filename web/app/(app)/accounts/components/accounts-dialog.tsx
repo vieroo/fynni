@@ -1,7 +1,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ColorPicker } from '@/components/ui/color-picker'
+import {
+  ColorPicker,
+  UncontrolledColorPicker,
+} from '@/components/ui/color-picker'
 import {
   Dialog,
   DialogClose,
@@ -23,48 +26,84 @@ import {
 } from '@/components/ui/select'
 import { accountColors } from '@/lib/account-colors'
 import { accountTypes } from '@/lib/account-types'
-import { Loader, Plus } from 'lucide-react'
+import { Edit, Loader, Plus } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
-import { createAccountAction } from '../actions'
+import { createAccountAction, updateAccountAction } from '../actions'
 import { toast } from 'sonner'
+import { Account } from '@/schemas/finances/accounts.schema'
 
-export default function AccountsDialog() {
-  const [type, setType] = useState<string>()
-  const [actionState, handleCreateAccount, isPending] = useActionState(
-    createAccountAction,
-    {
-      success: false,
-      message: null,
-      errors: null,
-    }
-  )
+type AccountDialogProps = {
+  mode?: 'create' | 'edit'
+  account?: Account | null
+}
+
+export default function AccountsDialog({
+  mode = 'create',
+  account,
+}: AccountDialogProps) {
+  const isEdit = mode === 'edit'
+  const action = isEdit ? updateAccountAction : createAccountAction
+
+  const [type, setType] = useState<string | undefined>(account?.type)
+
+  const [actionState, handleAction, isPending] = useActionState(action, {
+    success: false,
+    message: null,
+    errors: null,
+  })
 
   useEffect(() => {
     if (actionState?.success) {
-      toast.success(actionState.message || 'Conta criada com sucesso!')
+      toast.success(
+        actionState.message ??
+          (isEdit
+            ? 'Conta atualizada com sucesso!'
+            : 'Conta criada com sucesso!')
+      )
     }
-  }, [actionState?.success])
+  }, [actionState?.success, isEdit])
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer">
-          <Plus />
-          Nova Conta
+        <Button
+          className="cursor-pointer"
+          variant={isEdit ? 'secondary' : 'default'}
+          size={isEdit ? 'sm' : 'default'}
+        >
+          {isEdit ? (
+            <>
+              <Edit className="w-4 h-4" /> Editar Conta
+            </>
+          ) : (
+            <>
+              <Plus />
+              Nova Conta
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Nova Conta</DialogTitle>
+          <DialogTitle>{isEdit ? 'Editar Conta' : 'Nova Conta'}</DialogTitle>
           <DialogDescription>
-            Adicione uma nova conta bancária
+            {isEdit
+              ? 'Atualize as informações da conta'
+              : 'Adicione uma nova conta bancária'}
           </DialogDescription>
         </DialogHeader>
-        <form action={handleCreateAccount}>
+        <form action={handleAction}>
+          {isEdit && <input type="hidden" name="id" value={account!.id} />}
+
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name">Nome</Label>
-              <Input id="name" name="name" placeholder="Banco do Brasil" />
+              <Input
+                id="name"
+                name="name"
+                placeholder="Banco do Brasil"
+                defaultValue={account?.name}
+              />
 
               {actionState?.errors?.name && (
                 <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -75,7 +114,12 @@ export default function AccountsDialog() {
 
             <div className="grid gap-3">
               <Label htmlFor="balance">Saldo</Label>
-              <Input id="balance" name="balance" type="number" />
+              <Input
+                id="balance"
+                name="balance"
+                type="number"
+                defaultValue={account?.balance}
+              />
 
               {actionState?.errors?.balance && (
                 <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -88,7 +132,11 @@ export default function AccountsDialog() {
               <Label htmlFor="type">Tipo da Conta</Label>
               <input type="hidden" name="type" value={type ?? ''} />
 
-              <Select value={type} onValueChange={setType}>
+              <Select
+                value={type}
+                onValueChange={setType}
+                defaultValue={account?.type}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue />
                   <SelectContent>
@@ -110,7 +158,11 @@ export default function AccountsDialog() {
 
             <div className="grid gap-3">
               <Label htmlFor="color">Cor</Label>
-              <ColorPicker name="color" colors={accountColors} />
+              <UncontrolledColorPicker
+                name="color"
+                defaultValue={account?.color}
+                colors={accountColors}
+              />
 
               {actionState?.errors?.color && (
                 <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -124,7 +176,13 @@ export default function AccountsDialog() {
               <Button variant="outline">Cancelar</Button>
             </DialogClose>
             <Button type="submit" disabled={isPending}>
-              {isPending ? <Loader className="h-4 w-4" /> : 'Cadastrar'}
+              {isPending ? (
+                <Loader className="h-4 w-4" />
+              ) : isEdit ? (
+                'Salvar'
+              ) : (
+                'Cadastrar'
+              )}{' '}
             </Button>
           </DialogFooter>
         </form>

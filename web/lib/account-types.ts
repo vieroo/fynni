@@ -4,3 +4,5 @@ export const accountTypes = [
   { value: 'WALLET', label: 'Carteira' },
   { value: 'INVESTMENT', label: 'Investimentos' },
 ] as const
+
+export type AccountType = (typeof accountTypes)[number]['value']

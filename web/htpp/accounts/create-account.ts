@@ -1,4 +1,4 @@
-import { AccountFormData } from '@/schemas/finances/accounts.schema'
+import { CreateAccountInput } from '@/schemas/finances/accounts.schema'
 import { api } from '../http-client'
 
 export async function createAccount({
@@ -7,7 +7,7 @@ export async function createAccount({
   balance,
   color,
   imageUrl,
-}: AccountFormData) {
+}: CreateAccountInput) {
   const result = await api
     .post('accounts', {
       json: {
