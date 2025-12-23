@@ -10,6 +10,11 @@ import AccountsDialog from './components/accounts-dialog'
 import { getAccounts } from '@/htpp/accounts/get-accounts'
 import { AccountsCards } from './components/accounts-card'
 
+export const metadata = {
+  title: 'Fynni - Contas Bancárias',
+  description: 'Gerencie suas contas bancárias',
+}
+
 export default async function AccountsPage() {
   const accounts = await getAccounts()
 

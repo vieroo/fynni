@@ -4,8 +4,8 @@ import { NavItems } from './types'
 
 export const navItems: NavItems = [
   { href: '/', label: 'Inicio', icon: Home },
-  { href: '/accounts', label: 'Contas', icon: Wallet },
+  { href: '/transactions', label: 'Transações', icon: TrendingUp },
+  { href: '/accounts', label: 'Contas Bancárias', icon: Wallet },
   { href: '/cards', label: 'Cartões', icon: CreditCard },
   { href: '/categories', label: 'Categorias', icon: Tags },
-  { href: '/transactions', label: 'Transações', icon: TrendingUp },
 ]

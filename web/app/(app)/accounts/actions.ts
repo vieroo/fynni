@@ -1,6 +1,7 @@
 'use server'
 
 import { createAccount } from '@/htpp/accounts/create-account'
+import { deleteAccount } from '@/htpp/accounts/delete-account'
 import { updateAccount } from '@/htpp/accounts/update-account'
 import {
   createAccountSchema,
@@ -71,6 +72,35 @@ export async function updateAccountAction(_: unknown, data: FormData) {
     return {
       success: true,
       message: response.message || 'Conta atualizada com sucesso.',
+      errors: null,
+    }
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+
+      return {
+        success: false,
+        message,
+        errors: null,
+      }
+    }
+
+    return {
+      success: false,
+      message:
+        'Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.',
+      errors: null,
+    }
+  }
+}
+
+export async function deleteAccountAction(id: string) {
+  try {
+    const response = await deleteAccount(id)
+    revalidatePath('/accounts')
+    return {
+      success: true,
+      message: response || 'Conta deletada com sucesso.',
       errors: null,
     }
   } catch (error) {

@@ -1,10 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import {
-  ColorPicker,
-  UncontrolledColorPicker,
-} from '@/components/ui/color-picker'
+import { UncontrolledColorPicker } from '@/components/ui/color-picker'
 import {
   Dialog,
   DialogClose,
@@ -44,6 +41,7 @@ export default function AccountsDialog({
   const isEdit = mode === 'edit'
   const action = isEdit ? updateAccountAction : createAccountAction
 
+  const [open, setOpen] = useState(false)
   const [type, setType] = useState<string | undefined>(account?.type)
 
   const [actionState, handleAction, isPending] = useActionState(action, {
@@ -54,17 +52,13 @@ export default function AccountsDialog({
 
   useEffect(() => {
     if (actionState?.success) {
-      toast.success(
-        actionState.message ??
-          (isEdit
-            ? 'Conta atualizada com sucesso!'
-            : 'Conta criada com sucesso!')
-      )
+      toast.success(actionState.message)
+      setOpen(false)
     }
-  }, [actionState?.success, isEdit])
+  }, [actionState?.success])
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           className="cursor-pointer"
@@ -93,7 +87,9 @@ export default function AccountsDialog({
           </DialogDescription>
         </DialogHeader>
         <form action={handleAction}>
-          {isEdit && <input type="hidden" name="id" value={account!.id} />}
+          {isEdit && account && (
+            <input type="hidden" name="id" value={account.id} />
+          )}
 
           <div className="grid gap-4">
             <div className="grid gap-3">
@@ -118,6 +114,7 @@ export default function AccountsDialog({
                 id="balance"
                 name="balance"
                 type="number"
+                step="0.01"
                 defaultValue={account?.balance}
               />
 
@@ -132,11 +129,7 @@ export default function AccountsDialog({
               <Label htmlFor="type">Tipo da Conta</Label>
               <input type="hidden" name="type" value={type ?? ''} />
 
-              <Select
-                value={type}
-                onValueChange={setType}
-                defaultValue={account?.type}
-              >
+              <Select value={type} onValueChange={setType}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
                   <SelectContent>
@@ -173,11 +166,13 @@ export default function AccountsDialog({
           </div>
           <DialogFooter className="mt-6">
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline" id="close-accounts-dialog">
+                Cancelar
+              </Button>
             </DialogClose>
             <Button type="submit" disabled={isPending}>
               {isPending ? (
-                <Loader className="h-4 w-4" />
+                <Loader className="h-4 w-4 animate-spin" />
               ) : isEdit ? (
                 'Salvar'
               ) : (

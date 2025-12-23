@@ -1,15 +1,9 @@
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatCurrency, getAccountTypeLabel } from '@/lib/utils'
 import { Account } from '@/schemas/finances/accounts.schema'
-import { Edit, Trash2, Wallet } from 'lucide-react'
+import { Wallet } from 'lucide-react'
 import AccountsDialog from './accounts-dialog'
+import { DeleteAccountDialog } from './delete-dialog'
 
 type AccountsCardsProps = {
   accounts: Account[]
@@ -45,14 +39,7 @@ export function AccountsCards({ accounts }: AccountsCardsProps) {
             </p>
             <div className="flex gap-2 mt-4">
               <AccountsDialog mode="edit" account={account} />
-              <Button
-                size="sm"
-                variant="outline"
-                // onClick={() => handleDelete(account.id)}
-                className="text-destructive"
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
+              <DeleteAccountDialog accountId={account.id} />
             </div>
           </CardContent>
         </Card>
