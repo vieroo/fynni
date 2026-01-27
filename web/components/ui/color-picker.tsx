@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type ColorPickerProps = {
   value: string
@@ -26,7 +26,7 @@ export function ColorPicker({ value, onChange, colors }: ColorPickerProps) {
               'h-10 w-10 rounded-md transition-all hover:cursor-pointer',
               selected
                 ? 'ring-2 ring-ring ring-offset-2 ring-offset-background'
-                : 'border border-border hover:scale-105'
+                : 'border border-border hover:scale-105',
             )}
             style={{ backgroundColor: color.value }}
           >
@@ -48,14 +48,22 @@ type UncontrolledColorPickerProps = {
   name?: string
   defaultValue?: string
   colors: readonly { value: string; label: string }[]
+  externalValue?: string
 }
 
 export function UncontrolledColorPicker({
   name = 'color',
   defaultValue,
   colors,
+  externalValue,
 }: UncontrolledColorPickerProps) {
   const [value, setValue] = useState(defaultValue || colors[0]?.value || '')
+
+  useEffect(() => {
+    if (externalValue) {
+      setValue(externalValue)
+    }
+  }, [externalValue])
 
   return (
     <div className="grid grid-cols-6 gap-2">
@@ -74,7 +82,7 @@ export function UncontrolledColorPicker({
               'h-9 w-9 rounded-full transition-all hover:cursor-pointer',
               selected
                 ? 'ring-2 ring-ring ring-offset-2 ring-offset-background'
-                : 'border border-border hover:scale-105'
+                : 'border border-border hover:scale-105',
             )}
             style={{ backgroundColor: color.value }}
           >

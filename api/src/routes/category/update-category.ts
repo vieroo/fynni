@@ -43,10 +43,15 @@ export async function updateCategory(app: FastifyInstance) {
           throw new BadRequestError('Categoria não encontrada')
         }
 
+        if (existingCategory.userId === null) {
+          throw new BadRequestError('Categorias padrão não podem ser editadas')
+        }
+
         await prisma.category.update({
           data: { ...request.body },
           where: {
             id,
+            userId,
           },
         })
 

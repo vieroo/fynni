@@ -86,14 +86,14 @@ model CreditCard {
 
 model Category {
   id        String       @id @default(uuid())
-  userId    String       @map("user_id")
+  userId    String?      @map("user_id")
   name      String
   icon      String?
   color     String?
   type      CategoryType
   createdAt DateTime     @default(now()) @map("created_at")
 
-  user         User          @relation(fields: [userId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
   transactions Transaction[]
 
   @@map("categories")

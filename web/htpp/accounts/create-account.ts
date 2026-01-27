@@ -8,6 +8,8 @@ export async function createAccount({
   color,
   imageUrl,
 }: CreateAccountInput) {
+  console.log(imageUrl)
+
   const result = await api
     .post('accounts', {
       json: {

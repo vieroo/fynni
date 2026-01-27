@@ -1,22 +1,26 @@
+export const defaultAccountColor = '#3b82f6' // Azul como padrão
+
 export const accountColors = [
-  { value: '#ef4444', label: 'Vermelho' },
-  { value: '#f97316', label: 'Laranja' },
-  { value: '#f59e0b', label: 'Âmbar' },
+  // Bancos padrão
+  { value: '#820AD1', label: 'Nubank Roxo' },
+  { value: '#EC7000', label: 'Itaú Laranja' },
+  { value: '#CC092F', label: 'Bradesco Vermelho' },
+  { value: '#FFD400', label: 'Banco do Brasil Amarelo' },
+  { value: '#0066B3', label: 'Caixa Azul' },
+  { value: '#EA1D25', label: 'Santander Vermelho' },
+  { value: '#FF7A00', label: 'Inter Laranja' },
+  { value: '#000000', label: 'C6 Preto' },
+  { value: '#21C25E', label: 'PicPay Verde' },
+  { value: '#009EE3', label: 'Mercado Pago Azul' },
+
+  // Cores genéricas (fallback)
+  { value: '#3b82f6', label: 'Azul' },
   { value: '#eab308', label: 'Amarelo' },
-  { value: '#84cc16', label: 'Lima' },
+
   { value: '#22c55e', label: 'Verde' },
   { value: '#10b981', label: 'Esmeralda' },
-  { value: '#14b8a6', label: 'Azul-verde' },
-  { value: '#06b6d4', label: 'Ciano' },
-  { value: '#0ea5e9', label: 'Azul Claro' },
-  { value: '#3b82f6', label: 'Azul' },
-  { value: '#6366f1', label: 'Índigo' },
-  { value: '#8b5cf6', label: 'Violeta' },
-  { value: '#a855f7', label: 'Roxo' },
+  { value: '#64748b', label: 'Cinza' },
   { value: '#d946ef', label: 'Fúcsia' },
   { value: '#ec4899', label: 'Rosa' },
-  { value: '#64748b', label: 'Cinza' },
   { value: '#F5F5F5', label: 'Branco' },
 ] as const
-
-export const defaultAccountColor = '#3b82f6' // Azul como padrão

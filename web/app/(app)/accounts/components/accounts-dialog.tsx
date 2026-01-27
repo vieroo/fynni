@@ -28,6 +28,8 @@ import { useActionState, useEffect, useState } from 'react'
 import { createAccountAction, updateAccountAction } from '../actions'
 import { toast } from 'sonner'
 import { Account } from '@/schemas/finances/accounts.schema'
+import { defaultBanks } from '@/lib/banks'
+import Image from 'next/image'
 
 type AccountDialogProps = {
   mode?: 'create' | 'edit'
@@ -44,6 +46,10 @@ export default function AccountsDialog({
   const [open, setOpen] = useState(false)
   const [type, setType] = useState<string | undefined>(account?.type)
 
+  const [selectedBank, setSelectedBank] = useState<
+    (typeof defaultBanks)[number] | null
+  >(null)
+
   const [actionState, handleAction, isPending] = useActionState(action, {
     success: false,
     message: null,
@@ -56,6 +62,24 @@ export default function AccountsDialog({
       setOpen(false)
     }
   }, [actionState?.success])
+
+  function handleSelectBank(bank: (typeof defaultBanks)[number]) {
+    setSelectedBank(bank)
+
+    // Preencher campos do form
+    const nameInput =
+      document.querySelector<HTMLInputElement>('input[name="name"]')
+    const colorInput = document.querySelector<HTMLInputElement>(
+      'input[name="color"]',
+    )
+    const imageInput = document.querySelector<HTMLInputElement>(
+      'input[name="imageUrl"]',
+    )
+
+    if (nameInput) nameInput.value = bank.name
+    if (colorInput) colorInput.value = bank.color
+    if (imageInput) imageInput.value = bank.imageUrl
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -86,9 +110,49 @@ export default function AccountsDialog({
               : 'Adicione uma nova conta bancária'}
           </DialogDescription>
         </DialogHeader>
+        {mode === 'create' && (
+          <div className="grid gap-2">
+            <Label>Bancos pré-definidos</Label>
+
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {defaultBanks.map((bank) => {
+                const isSelected = selectedBank?.name === bank.name
+
+                return (
+                  <button
+                    key={bank.name}
+                    type="button"
+                    onClick={() => handleSelectBank(bank)}
+                    className={`flex items-center justify-center rounded-full transition hover:cursor-pointer`}
+                  >
+                    <Image
+                      src={bank.imageUrl}
+                      alt={bank.name}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
         <form action={handleAction}>
+          <input
+            type="hidden"
+            name="imageUrl"
+            defaultValue={selectedBank?.imageUrl ?? ''}
+          />
           {isEdit && account && (
-            <input type="hidden" name="id" value={account.id} />
+            <>
+              <input type="hidden" name="id" value={account.id} />
+              <input
+                type="hidden"
+                name="imageUrl"
+                defaultValue={account?.imageUrl ?? ''}
+              />
+            </>
           )}
 
           <div className="grid gap-4">
@@ -155,6 +219,7 @@ export default function AccountsDialog({
                 name="color"
                 defaultValue={account?.color}
                 colors={accountColors}
+                externalValue={selectedBank?.color}
               />
 
               {actionState?.errors?.color && (
