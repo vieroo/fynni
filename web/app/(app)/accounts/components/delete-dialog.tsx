@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogClose,
 } from '@/components/ui/dialog'
-import { Trash2, Loader } from 'lucide-react'
+import { Loader, Trash } from 'lucide-react'
 import { toast } from 'sonner'
 import { deleteAccountAction } from '../actions'
 
@@ -40,7 +40,7 @@ export function DeleteAccountDialog({ accountId }: DeleteAccountDialogProps) {
     <Dialog>
       <DialogTrigger asChild>
         <Button size="sm" variant="secondary" className="text-destructive">
-          <Trash2 className="h-4 w-4" />
+          <Trash className="h-4 w-4" />
         </Button>
       </DialogTrigger>
 

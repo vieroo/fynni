@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/select'
 import { accountColors } from '@/lib/account-colors'
 import { accountTypes } from '@/lib/account-types'
-import { Edit, Loader, Plus } from 'lucide-react'
+import { Edit, Loader, Plus, Settings } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
 import { createAccountAction, updateAccountAction } from '../actions'
 import { toast } from 'sonner'
@@ -91,7 +91,7 @@ export default function AccountsDialog({
         >
           {isEdit ? (
             <>
-              <Edit className="w-4 h-4" /> Editar Conta
+              <Settings className="w-4 h-4" />
             </>
           ) : (
             <>
