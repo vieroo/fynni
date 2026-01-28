@@ -22,7 +22,7 @@ export async function getCategory(app: FastifyInstance) {
             200: z.object({
               category: z.object({
                 id: z.string(),
-                userId: z.string(),
+                userId: z.string().nullable(),
                 name: z.string(),
                 type: z.enum(['INCOME', 'EXPENSE', 'BOTH']),
                 color: z.string().nullable(),
@@ -38,7 +38,7 @@ export async function getCategory(app: FastifyInstance) {
         const userId = await request.getCurrentUserId()
 
         const category = await prisma.category.findFirst({
-          where: { userId, id },
+          where: { OR: [{ userId }, { userId: null }] },
         })
 
         if (!category) {

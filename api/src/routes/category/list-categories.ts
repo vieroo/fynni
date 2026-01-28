@@ -19,7 +19,7 @@ export async function listCategories(app: FastifyInstance) {
               categories: z.array(
                 z.object({
                   id: z.string(),
-                  userId: z.string(),
+                  userId: z.string().nullable(),
                   name: z.string(),
                   type: z.enum(['INCOME', 'EXPENSE', 'BOTH']),
                   color: z.string().nullable(),
@@ -35,8 +35,8 @@ export async function listCategories(app: FastifyInstance) {
         const userId = await request.getCurrentUserId()
 
         const categories = await prisma.category.findMany({
-          where: { userId },
-          orderBy: { createdAt: 'desc' },
+          where: { OR: [{ userId }, { userId: null }] },
+          orderBy: [{ userId: 'asc' }, { name: 'asc' }],
         })
 
         return reply.status(200).send({ categories })

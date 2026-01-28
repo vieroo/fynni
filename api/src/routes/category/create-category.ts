@@ -40,7 +40,7 @@ export async function createCategory(app: FastifyInstance) {
           },
         })
 
-        return reply.status(201).send()
+        return reply.status(201).send(null)
       },
     )
 }

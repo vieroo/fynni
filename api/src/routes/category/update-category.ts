@@ -39,6 +39,10 @@ export async function updateCategory(app: FastifyInstance) {
           where: { id, userId },
         })
 
+        if (existingCategory?.userId === null) {
+          throw new BadRequestError('Categorias padrão não podem ser alteradas')
+        }
+
         if (!existingCategory) {
           throw new BadRequestError('Categoria não encontrada')
         }

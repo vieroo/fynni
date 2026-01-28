@@ -33,6 +33,10 @@ export async function deleteCategory(app: FastifyInstance) {
           where: { userId, id },
         })
 
+        if (category?.userId === null) {
+          throw new BadRequestError('Categorias padrão não podem ser alteradas')
+        }
+
         if (!category) {
           throw new BadRequestError('Categoria não encontrada.')
         }

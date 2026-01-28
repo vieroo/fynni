@@ -12,7 +12,7 @@ export function Navbar({ user }: { user: User }) {
   const pathname = usePathname()
 
   return (
-    <nav className="shadow-md">
+    <nav className="shadow-xs">
       <div className="container mx-auto px-4">
         <div className="relative flex h-12 items-center">
           <Link href="/" className="flex items-center font-semibold">
